@@ -30,26 +30,18 @@ public abstract class LWindow : Window
         }
     }
 
-    protected new bool IsPinned
-    {
-        get => InternalIsPinned(this);
-        set => InternalIsPinned(this) = value;
-    }
+	protected new bool IsPinned { get => AllowPinning; set => AllowPinning = value; }
 
-    protected new bool IsClickthrough
-    {
-        get => InternalIsClickthrough(this);
-        set => InternalIsClickthrough(this) = value;
-    }
+	protected new bool IsClickthrough { get => AllowClickthrough; set => AllowClickthrough = value; }
 
     protected int? Alpha
     {
         get
         {
-            float? value = InternalAlpha(this);
+            float? value = BgAlpha;
             return (int?)(10_0000 * value);
         }
-        set => InternalAlpha(this) = value / 10_0000f;
+        set => BgAlpha = value / 10_0000f;
     }
 
     private void LoadWindowConfig()
@@ -158,13 +150,4 @@ public abstract class LWindow : Window
             UpdateWindowConfig();
     }
     #endregion
-
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "internalIsPinned")]
-    private static extern ref bool InternalIsPinned(Window @this);
-
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "internalIsClickthrough")]
-    private static extern ref bool InternalIsClickthrough(Window @this);
-
-    [UnsafeAccessor(UnsafeAccessorKind.Field, Name = "internalAlpha")]
-    private static extern ref float? InternalAlpha(Window @this);
 }
